@@ -5,3 +5,4 @@ youtube-transcript-api
 openpyxl
 yt-dlp
 openai-whisper
+matplotlib

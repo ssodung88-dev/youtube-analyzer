@@ -1,0 +1,7 @@
+streamlit
+pandas
+google-api-python-client
+youtube-transcript-api
+openpyxl
+yt-dlp
+openai-whisper

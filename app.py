@@ -568,6 +568,12 @@ if search_button:
         )
 
         title = snippet["title"]
+        channel_title = snippet["channelTitle"]
+
+        korean_text = title + " " + channel_title
+
+        if not any("가" <= ch <= "힣" for ch in korean_text):
+            continue
 
         keywords = re.findall(
             r"[가-힣a-zA-Z0-9]+",

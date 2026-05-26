@@ -478,9 +478,9 @@ if search_button:
     next_page_token = None
 
     if subscriber_filter == "전체":
-        max_pages = 5   # 250개
+        max_pages = 3   # 150개
     else:
-        max_pages = 10  # 500개
+        max_pages = 3  # 150개
 
     for _ in range(max_pages):
         

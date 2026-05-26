@@ -489,7 +489,15 @@ if search_button:
         elif "pageToken" in search_params:
             del search_params["pageToken"]
 
-        search_response = youtube.search().list(**search_params).execute()
+        try:
+            search_response = youtube.search().list(**search_params).execute()
+
+        except Exception as e:
+            st.error(
+                "유튜브 API 요청 중 오류가 발생했습니다.\n\n"
+                "API 할당량 초과이거나 요청이 너무 많을 수 있습니다."
+            )
+            st.stop()
 
         search_items.extend(search_response.get("items", []))
 

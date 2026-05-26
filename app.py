@@ -411,10 +411,14 @@ keyword = st.text_input(
     value=""
 )
 
+if keyword.strip() == "":
+    keyword = "a"
+
 period = st.selectbox(
     "검색 기간",
     [
         "전체",
+        "7일 이내",
         "1개월 이내",
         "3개월 이내",
         "6개월 이내",
@@ -624,11 +628,12 @@ if "df" in st.session_state:
             df["쇼츠여부"] == "일반영상"
         ]
 
-    df = df[
-        (df["조회수배율"] >= min_ratio)
-        &
-        (df["참여율(%)"] >= min_engagement)
-    ]
+    if "조회수배율" in df.columns and "참여율(%)" in df.columns:
+        df = df[
+            (df["조회수배율"] >= min_ratio)
+            &
+            (df["참여율(%)"] >= min_engagement)
+        ]
 
     if show_favorites_only:
 

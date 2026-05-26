@@ -251,6 +251,18 @@ crazy_view_filter = st.sidebar.checkbox(
     "🚀 구독자 대비 미친 조회수만 보기"
 )
 
+subscriber_filter = st.sidebar.selectbox(
+    "구독자수 필터",
+    [
+        "전체",
+        "50명 이하",
+        "100명 이하",
+        "300명 이하",
+        "500명 이하",
+        "1000명 이하"
+    ]
+)
+
 min_ratio = st.sidebar.number_input(
     "최소 조회수배율",
     min_value=0.0,
@@ -569,7 +581,7 @@ if search_button:
 
         title = snippet["title"]
         channel_title = snippet["channelTitle"]
-        
+
         title_lower = title.lower()
         channel_lower = channel_title.lower()
 
@@ -674,6 +686,21 @@ if "df" in st.session_state:
             &
             (df["참여율(%)"] >= min_engagement)
         ]
+
+    if subscriber_filter == "50명 이하":
+        df = df[df["구독자수"] <= 50]
+
+    elif subscriber_filter == "100명 이하":
+        df = df[df["구독자수"] <= 100]
+
+    elif subscriber_filter == "300명 이하":
+        df = df[df["구독자수"] <= 300]
+
+    elif subscriber_filter == "500명 이하":
+        df = df[df["구독자수"] <= 500]
+
+    elif subscriber_filter == "1000명 이하":
+        df = df[df["구독자수"] <= 1000]    
 
     if show_favorites_only:
 

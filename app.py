@@ -568,21 +568,19 @@ if search_button:
         )
 
         title = snippet["title"]
-        channel_id = snippet["channelId"]
+        title_lower = title.lower()
+        channel_lower = channel_title.lower()
 
-        channel_response = youtube.channels().list(
-            part="snippet",
-            id=channel_id
-        ).execute()
+        foreign_keywords = [
+            "india", "usa", "america", "english",
+            "official", "music", "mrbeast",
+            "tiktok", "minecraft", "roblox"
+        ]
 
-        channel_items = channel_response.get("items", [])
-
-        if not channel_items:
+        if any(word in title_lower for word in foreign_keywords):
             continue
 
-        channel_country = channel_items[0]["snippet"].get("country", "")
-
-        if channel_country != "KR":
+        if any(word in channel_lower for word in foreign_keywords):
             continue
 
         channel_title = snippet["channelTitle"]

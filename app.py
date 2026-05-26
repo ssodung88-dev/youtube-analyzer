@@ -568,6 +568,8 @@ if search_button:
         )
 
         title = snippet["title"]
+        channel_title = snippet["channelTitle"]
+        
         title_lower = title.lower()
         channel_lower = channel_title.lower()
 

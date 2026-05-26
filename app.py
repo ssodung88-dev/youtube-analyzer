@@ -474,11 +474,27 @@ if search_button:
     if published_after:
         search_params["publishedAfter"] = published_after
 
-    search_response = youtube.search().list(**search_params).execute()
+    search_items = []
+    next_page_token = None
+
+    for _ in range(5):  # 50개씩 최대 250개까지 검색
+        if next_page_token:
+            search_params["pageToken"] = next_page_token
+        elif "pageToken" in search_params:
+            del search_params["pageToken"]
+
+        search_response = youtube.search().list(**search_params).execute()
+
+        search_items.extend(search_response.get("items", []))
+
+        next_page_token = search_response.get("nextPageToken")
+
+        if not next_page_token:
+            break
 
     videos = []
 
-    for item in search_response["items"]:
+    for item in search_items:
 
         video_id = item["id"]["videoId"]
 

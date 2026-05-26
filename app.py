@@ -455,6 +455,8 @@ if search_button:
         "type": "video",
         "maxResults": 50,
         "order": "viewCount",
+        "regionCode": "KR",
+        "relevanceLanguage": "ko",
     }
 
     if published_after:

@@ -412,7 +412,7 @@ keyword = st.text_input(
 )
 
 if keyword.strip() == "":
-    keyword = "a"
+    keyword = "추천"
 
 period = st.selectbox(
     "검색 기간",
@@ -568,12 +568,24 @@ if search_button:
         )
 
         title = snippet["title"]
-        channel_title = snippet["channelTitle"]
+        channel_id = snippet["channelId"]
 
-        korean_text = title + " " + channel_title
+        channel_response = youtube.channels().list(
+            part="snippet",
+            id=channel_id
+        ).execute()
 
-        if not any("가" <= ch <= "힣" for ch in korean_text):
+        channel_items = channel_response.get("items", [])
+
+        if not channel_items:
             continue
+
+        channel_country = channel_items[0]["snippet"].get("country", "")
+
+        if channel_country != "KR":
+            continue
+
+        channel_title = snippet["channelTitle"]
 
         keywords = re.findall(
             r"[가-힣a-zA-Z0-9]+",

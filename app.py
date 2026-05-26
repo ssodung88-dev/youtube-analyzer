@@ -426,6 +426,21 @@ period = st.selectbox(
     ]
 )
 
+now = datetime.now(timezone.utc)
+
+if period == "7일 이내":
+    published_after = (now - timedelta(days=7)).isoformat()
+elif period == "1개월 이내":
+    published_after = (now - timedelta(days=30)).isoformat()
+elif period == "3개월 이내":
+    published_after = (now - timedelta(days=90)).isoformat()
+elif period == "6개월 이내":
+    published_after = (now - timedelta(days=180)).isoformat()
+elif period == "1년 이내":
+    published_after = (now - timedelta(days=365)).isoformat()
+else:
+    published_after = None
+
 search_button = st.button("검색")
 
 # =========================
@@ -434,13 +449,18 @@ search_button = st.button("검색")
 
 if search_button:
 
-    search_response = youtube.search().list(
-        q=keyword,
-        part="snippet",
-        type="video",
-        maxResults=50,
-        order="viewCount"
-    ).execute()
+    search_params = {
+        "q": keyword,
+        "part": "snippet",
+        "type": "video",
+        "maxResults": 50,
+        "order": "viewCount",
+    }
+
+    if published_after:
+        search_params["publishedAfter"] = published_after
+
+    search_response = youtube.search().list(**search_params).execute()
 
     videos = []
 

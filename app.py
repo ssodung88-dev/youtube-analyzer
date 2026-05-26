@@ -477,7 +477,13 @@ if search_button:
     search_items = []
     next_page_token = None
 
-    for _ in range(5):  # 50개씩 최대 250개까지 검색
+    if subscriber_filter == "전체":
+        max_pages = 5   # 250개
+    else:
+        max_pages = 20  # 1000개
+
+    for _ in range(max_pages):
+        
         if next_page_token:
             search_params["pageToken"] = next_page_token
         elif "pageToken" in search_params:
